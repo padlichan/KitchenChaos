@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
             case State.Gameover:
                 break;
         }
-        Debug.Log(GameState);
     }
 
     public bool isGamePlaying()
