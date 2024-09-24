@@ -22,6 +22,8 @@ public class MainMenuUI : MonoBehaviour
             Application.Quit();
             Debug.Log("Quit game");
         });
+
+        Time.timeScale = 1f;
     }
 
 }

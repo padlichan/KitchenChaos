@@ -9,6 +9,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     private KitchenObject kitchenObject;
     public static event EventHandler OnAnyObjectDropped;
 
+    public static void ResetStaticData()
+    {
+        OnAnyObjectDropped = null;
+    }
+
 
     public virtual void Interact(Player player)
     {

@@ -21,7 +21,7 @@ public class GameStartCountdownUI : MonoBehaviour
 
     private void GameManager_OnStateChange(object sender, EventArgs e)
     {
-        if (GameManager.Instance.isCountDownToStartActive()) Show();
+        if (GameManager.Instance.IsCountDownToStartActive()) Show();
         else Hide();
     }
 

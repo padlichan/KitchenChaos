@@ -9,6 +9,10 @@ public class PlateKitchenObject : KitchenObject
     [SerializeField] List<KitchenObjectSO> ValidKitchenObjectSOList;
     public event EventHandler<OnIngerdientAddedEventArgs> OnIngredientAdded;
     public static event EventHandler OnAnyIngredientAdded;
+    public static void ResetStaticData()
+    {
+        OnAnyIngredientAdded = null;
+    }
 
     public class OnIngerdientAddedEventArgs : EventArgs
     {

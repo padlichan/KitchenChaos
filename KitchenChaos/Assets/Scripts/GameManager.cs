@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float countdownToStartTimer = 3f;
     [SerializeField] private float gamePlayingTimer;
     private float gamePlayingTimerMax = 10f;
+    private bool isGamePaused = false;
+    public event EventHandler OnGamePaused;
+    public event EventHandler OnGameUnpaused;
+
 
     public event EventHandler OnStateChange;
 
@@ -34,9 +38,34 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
+        else Debug.Log("More than one GameManager instances in scene");
         GameState = State.WaitingToStart;
         gamePlayingTimer = gamePlayingTimerMax;
+    }
+    private void Start()
+    {
+        GameInput.Instance.OnPause += GameInput_OnPause;
+    }
+
+    private void GameInput_OnPause(object sender, EventArgs e)
+    {
+        ToggleGamePause();
+    }
+
+    public void ToggleGamePause()
+    {
+        isGamePaused = !isGamePaused;
+        if (isGamePaused)
+        {
+            Time.timeScale = 0f;
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            OnGameUnpaused?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void Update()
@@ -60,11 +89,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool isGamePlaying()
+    public bool IsGamePlaying()
     {
         return GameState == State.GamePlaying;
     }
-    public bool isCountDownToStartActive()
+    public bool IsCountDownToStartActive()
     {
         return GameState == State.CountdownToStart;
     }
