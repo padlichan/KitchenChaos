@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    private const string PLAYER_PREFS_SOUND_EFFECTS_VOLUME = "SoundEffectsVolume";
     [SerializeField] private AudioClipRef audioClipRef;
     public static SoundManager Instance { get; private set; }
+    public float SoundEffectsVolume { get; private set; } = 1f;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
+        else Debug.LogError("Multiple SoundManager instances in scene");
+        SoundEffectsVolume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 1f);
+
     }
     private void Start()
     {
@@ -64,15 +69,23 @@ public class SoundManager : MonoBehaviour
     {
         PlaySound(audioClipRef.footStep, position, volume);
     }
-    private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
+    private void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f)
     {
-        AudioSource.PlayClipAtPoint(audioClip, position, volume);
+        AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * SoundEffectsVolume);
     }
 
     private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)
     {
         int i = UnityEngine.Random.Range(0, audioClipArray.Length);
-        AudioSource.PlayClipAtPoint(audioClipArray[i], position, volume);
+        PlaySound(audioClipArray[i], position, volume);
+    }
+
+    public void ChangeSoundEffectsVolume()
+    {
+        SoundEffectsVolume += 0.1f;
+        if (Mathf.Floor(SoundEffectsVolume) >= 1) SoundEffectsVolume = 0f;
+        PlayerPrefs.SetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, SoundEffectsVolume);
+        PlayerPrefs.Save();
     }
 
 }
