@@ -25,5 +25,4 @@ public class MainMenuUI : MonoBehaviour
 
         Time.timeScale = 1f;
     }
-
 }

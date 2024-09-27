@@ -84,6 +84,35 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             //So the character still turns even if they can't move
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotationSpeed);
 
+            //Attempt to move only in X
+            Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
+            canMove = (moveDir.x < -.5f || moveDir.x > .5f) && !Physics.CapsuleCast(transform.position, transform.position + transform.up * playerHight, playerRadius, moveDirX, moveDistance);
+
+
+            //Can move only in X
+            if (canMove) moveDir = moveDirX;
+
+            else
+            {
+                //Cannot move in x
+                //Attempt to move only in z
+
+                Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
+                canMove = (moveDir.z < -.5f || moveDir.z > .5f) && !Physics.CapsuleCast(transform.position, transform.position + transform.up * playerHight, playerRadius, moveDirZ, moveDistance);
+
+                //Can move only in z
+                if (canMove) moveDir = moveDirZ;
+                else
+                {
+                    //Cannot move at all
+                }
+
+            }
+
+            /*
+            //So the character still turns even if they can't move
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotationSpeed);
+
             //Attempt to move only in x
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
             canMove = !Physics.CapsuleCast(transform.position, transform.position + transform.up * playerHight, playerRadius, moveDirX, moveDistance);
@@ -105,7 +134,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
                 }
 
             }
-
+*/
         }
 
         if (canMove)
@@ -115,7 +144,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
 
         isWalking = moveDir != Vector3.zero;
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotationSpeed);
+        //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotationSpeed);
 
     }
 

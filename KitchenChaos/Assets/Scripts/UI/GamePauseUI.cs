@@ -32,7 +32,8 @@ public class GamePauseUI : MonoBehaviour
     private void OpenOptionsMenu()
     {
         //Open options menu
-        OptionsUI.Instance.Show();
+        Hide();
+        OptionsUI.Instance.Show(Show);
     }
 
     private void Start()
@@ -56,6 +57,7 @@ public class GamePauseUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        resumeButton.Select();
     }
 
     private void Hide()
