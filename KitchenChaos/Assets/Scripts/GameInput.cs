@@ -14,6 +14,8 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnInteractAlternateAction;
     public event EventHandler OnPause;
 
+    public event EventHandler OnKeyRebind;
+
 
     private void Awake()
     {
@@ -167,6 +169,8 @@ public class GameInput : MonoBehaviour
             onActionRebound();
             PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
             PlayerPrefs.Save();
+
+            OnKeyRebind?.Invoke(this, EventArgs.Empty);
         }).Start();
     }
 }

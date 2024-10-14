@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    [SerializeField] private float waitingToStartTimer = 1f;
     [SerializeField] private float countdownToStartTimer = 3f;
     [SerializeField] private float gamePlayingTimer;
     private float gamePlayingTimerMax = 10f;
@@ -46,6 +45,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnPause += GameInput_OnPause;
+        GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+    }
+
+    private void GameInput_OnInteractAction(object sender, EventArgs e)
+    {
+        if (gameState == State.WaitingToStart)
+        {
+            gameState = State.CountdownToStart;
+            OnStateChange?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void GameInput_OnPause(object sender, EventArgs e)
@@ -73,8 +82,6 @@ public class GameManager : MonoBehaviour
         switch (GameState)
         {
             case State.WaitingToStart:
-                waitingToStartTimer -= Time.deltaTime;
-                if (waitingToStartTimer <= 0) GameState = State.CountdownToStart;
                 break;
             case State.CountdownToStart:
                 countdownToStartTimer -= Time.deltaTime;

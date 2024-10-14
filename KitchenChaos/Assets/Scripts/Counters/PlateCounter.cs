@@ -14,6 +14,15 @@ public class PlateCounter : BaseCounter
     private int plateSpawnedAmount;
     private int plateSpawnedAmountMax = 4;
 
+    private void Start()
+    {
+        //Populate counter with plates
+        for (int i = 0; i < plateSpawnedAmountMax; i++)
+        {
+            plateSpawnedAmount++;
+            OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+        }
+    }
     public override void Interact(Player player)
     {
         {
@@ -31,10 +40,9 @@ public class PlateCounter : BaseCounter
     }
     private void Update()
     {
-        if (plateSpawnedAmount < plateSpawnedAmountMax) spawnPlateTimer += Time.deltaTime;
+        if (GameManager.Instance.IsGamePlaying() && plateSpawnedAmount < plateSpawnedAmountMax) spawnPlateTimer += Time.deltaTime;
         if (spawnPlateTimer > spawnPlateTimerMax && !HasKitchenObject())
         {
-            //KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, this);
             spawnPlateTimer = 0;
             if (plateSpawnedAmount < plateSpawnedAmountMax)
             {
