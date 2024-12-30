@@ -1,7 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,11 +8,20 @@ public class Player : MonoBehaviour
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private LayerMask countersLayerMask;
     public bool IsWalking { get; private set; }
-    
+
+    private void Awake()
+    {
+        inputHandler.OnInteractAction += InputHandler_OnInteractAction;
+    }
+
+    private void InputHandler_OnInteractAction(object sender, EventArgs e)
+    {
+        HandleInteractions();
+    }
+
     private void Update()
     {
         HandleMovement();
-        HandleInteractions();
     }
 
    private void HandleInteractions()
