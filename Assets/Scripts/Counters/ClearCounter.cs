@@ -9,10 +9,19 @@ public class ClearCounter : BaseCounter
         if (!HasKitchenObject())
         {
             //TO DO: If player has KO move KO to counter
+            if(player.HasKitchenObject())
+            {
+                //Put down kitchen object
+                player.GetKitchenObject().SetKitchenObjectParent(this);
+            }
         }
         else
         {
             //TO DO: If player doesn't have KO, give KO to player
+            if(!player.HasKitchenObject())
+            {
+                GetKitchenObject().SetKitchenObjectParent(player);
+            }
         }
     }
 }

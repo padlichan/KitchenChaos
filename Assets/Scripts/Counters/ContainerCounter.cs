@@ -10,14 +10,27 @@ public class ContainerCounter : BaseCounter
     {
         if (!HasKitchenObject())
         {
-            //TO DO: If player has KO, put KO on this counter
-            Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.Prefab);
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
-            OnPlayerGrabObject?.Invoke(this, EventArgs.Empty);
+            if(player.HasKitchenObject())
+            {
+                KitchenObject playerKitchenObject = player.GetKitchenObject();
+                if(playerKitchenObject.GetKitchenObjectSO().Name == kitchenObjectSO.Name)
+                {
+                    playerKitchenObject.SetKitchenObjectParent(this);
+                }
+            }
+            else 
+            {
+                Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.Prefab);
+                kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+                OnPlayerGrabObject?.Invoke(this, EventArgs.Empty);
+            }
         }
         else
         {
-            //TO DO: If player doesn't have KO give KO to player
+            if(!player.HasKitchenObject())
+            {
+                GetKitchenObject().SetKitchenObjectParent(player);
+            }
         }
     }
 }
