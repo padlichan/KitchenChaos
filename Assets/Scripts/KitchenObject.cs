@@ -3,7 +3,7 @@ using UnityEngine;
 public class KitchenObject : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
-
+    public float cuttingProgressNormalized = 0;
     private IKitchenObjectParent kitchenObjectParent;
 
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)

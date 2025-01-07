@@ -81,7 +81,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
         IsWalking = moveDir != Vector3.zero;
 
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, turnSpeed * Time.deltaTime);
+        if(moveDir!= Vector3.zero) transform.forward = Vector3.Slerp(transform.forward, moveDir, turnSpeed * Time.deltaTime);
 
         float playerRadius = .7f;
         float playerHight = 2f;
