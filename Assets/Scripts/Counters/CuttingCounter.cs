@@ -5,22 +5,23 @@ using UnityEngine.Windows;
 public class CuttingCounter : BaseCounter
 {
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
+
+    private int cuttingProgress;
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
         {
-            //TO DO: If player has KO move KO to counter
             if (player.HasKitchenObject())
             {
                 if(CanBePlaced(player.GetKitchenObject().GetKitchenObjectSO()))
                 {
                     player.GetKitchenObject().SetKitchenObjectParent(this);
+                    cuttingProgress = 0;
                 }
             }
         }
         else
         {
-            //TO DO: If player doesn't have KO, give KO to player
             if (!player.HasKitchenObject())
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
@@ -32,9 +33,14 @@ public class CuttingCounter : BaseCounter
     {
         if(HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
         {
-            KitchenObjectSO output = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
-            GetKitchenObject().DestroySelf();
-            KitchenObject.SpawnKitchenObject(output, this);
+            cuttingProgress++;
+            CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+            if(cuttingProgress >= cuttingRecipeSO.cuttingProgressMax)
+            {
+                KitchenObjectSO output = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
+                GetKitchenObject().DestroySelf();
+                KitchenObject.SpawnKitchenObject(output, this);
+            }
         }
     }
 
@@ -51,5 +57,10 @@ public class CuttingCounter : BaseCounter
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO input)
     {
         return cuttingRecipeSOArray.Where(c => c.Input == input).FirstOrDefault().Output;
+    }
+
+    private CuttingRecipeSO GetCuttingRecipeSOWithInput(KitchenObjectSO input)
+    {
+        return cuttingRecipeSOArray.Where(c => c.Input == input).FirstOrDefault();
     }
 }
