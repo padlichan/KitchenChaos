@@ -3,7 +3,9 @@ using UnityEngine;
 public class KitchenObject : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
-    public float cuttingProgressNormalized = 0;
+    public float CuttingProgressNormalized = 0;
+    public float FryingProgress = 0;
+    public float BurningProgress = 0;
     private IKitchenObjectParent kitchenObjectParent;
 
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)

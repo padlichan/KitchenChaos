@@ -27,9 +27,9 @@ public class CuttingCounter : BaseCounter
                     if(CanBeCut(GetKitchenObject().GetKitchenObjectSO()))
                     {
                         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
-                        cuttingProgress = Mathf.RoundToInt(GetKitchenObject().cuttingProgressNormalized*cuttingRecipeSO.cuttingProgressMax);
+                        cuttingProgress = Mathf.RoundToInt(GetKitchenObject().CuttingProgressNormalized*cuttingRecipeSO.cuttingProgressMax);
                     }
-                    OnProgressChange?.Invoke(this, new OnProgresschangeEventArgs{progressNormalized = GetKitchenObject().cuttingProgressNormalized});
+                    OnProgressChange?.Invoke(this, new OnProgresschangeEventArgs{progressNormalized = GetKitchenObject().CuttingProgressNormalized});
                 }
             }
         }
@@ -51,9 +51,9 @@ public class CuttingCounter : BaseCounter
             cuttingProgress++;
             KitchenObject kitchenObject = GetKitchenObject();
             CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(kitchenObject.GetKitchenObjectSO());
-            kitchenObject.cuttingProgressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax;
-            OnProgressChange?.Invoke(this, new OnProgresschangeEventArgs { progressNormalized = kitchenObject.cuttingProgressNormalized });
-            if (kitchenObject.cuttingProgressNormalized >= 1)
+            kitchenObject.CuttingProgressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax;
+            OnProgressChange?.Invoke(this, new OnProgresschangeEventArgs { progressNormalized = kitchenObject.CuttingProgressNormalized });
+            if (kitchenObject.CuttingProgressNormalized >= 1)
             {
                 OnProgressChange?.Invoke(this, new OnProgresschangeEventArgs { progressNormalized = 0 });
                 KitchenObjectSO output = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
