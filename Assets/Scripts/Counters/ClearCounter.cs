@@ -6,19 +6,40 @@ public class ClearCounter : BaseCounter
     {
         if (!HasKitchenObject())
         {
-            //TO DO: If player has KO move KO to counter
+            //Counter does not have KO
             if(player.HasKitchenObject())
             {
-                //Put down kitchen object
+                //Player has KO
                 player.GetKitchenObject().SetKitchenObjectParent(this);
             }
         }
         else
         {
-            //TO DO: If player doesn't have KO, give KO to player
-            if(!player.HasKitchenObject())
+            //Counter has KO
+            if (!player.HasKitchenObject())
             {
+                //Player does not have KO
                 GetKitchenObject().SetKitchenObjectParent(player);
+            }
+            else
+            {
+                //Player has KO
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plate))
+                {
+                    //Player has plate
+                    if(plate.TryAddingredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
+                else if(GetKitchenObject().TryGetPlate(out plate))
+                {
+                    //Counter has plate
+                    if (plate.TryAddingredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        player.GetKitchenObject().DestroySelf();
+                    }
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ public class PlatesCounter : BaseCounter
 
     private void Update()
     {
-        if(platesCount<platesCountMax)
+        if (platesCount < platesCountMax)
         {
             plateSpawnTimer += Time.deltaTime;
             if (plateSpawnTimer > plateSpawnTimerMax)
@@ -26,18 +26,29 @@ public class PlatesCounter : BaseCounter
                 platesCount++;
             }
         }
-        
+
     }
     public override void Interact(Player player)
     {
-        Debug.Log("Platescounter interact!");
-        if(!player.HasKitchenObject())
+        if (platesCount > 0)
         {
-            if(platesCount>0)
+            if (!player.HasKitchenObject())
             {
                 platesCount--;
                 OnPlateRemoved?.Invoke(this, EventArgs.Empty);
                 KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
+            }
+            else
+            {
+                PlateKitchenObject plate = KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, this) as PlateKitchenObject;
+                if (plate.TryAddingredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                {
+                    platesCount--;
+                    OnPlateRemoved?.Invoke(this, EventArgs.Empty);
+                    player.GetKitchenObject().DestroySelf();
+                    plate.SetKitchenObjectParent(player);
+                }
+                else plate.DestroySelf();
             }
         }
     }
