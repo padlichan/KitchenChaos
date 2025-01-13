@@ -13,7 +13,7 @@ public class ContainerCounter : BaseCounter
             if(player.HasKitchenObject())
             {
                 KitchenObject playerKitchenObject = player.GetKitchenObject();
-                if(playerKitchenObject.GetKitchenObjectSO().Name == kitchenObjectSO.Name)
+                if(playerKitchenObject.GetKitchenObjectSO() == kitchenObjectSO)
                 {
                     playerKitchenObject.SetKitchenObjectParent(this);
                 }
