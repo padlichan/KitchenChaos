@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public static Player Instance { get; private set; }
 
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+    public event EventHandler OnItemPickup;
 
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void Awake()
     {
-        if (Instance != null) Debug.LogError("Multiple Player instances in scene."); 
+        if (Instance != null) Debug.LogError("Multiple Player instances in scene.");
         Instance = this;
     }
 
@@ -57,7 +58,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Vector2 inputVector = inputHandler.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
 
-        if(moveDir !=  Vector3.zero) lastInteractDir = moveDir;
+        if (moveDir != Vector3.zero) lastInteractDir = moveDir;
 
         float interactDistance = 2f;
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, interactDistance, countersLayerMask))
@@ -81,7 +82,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
         IsWalking = moveDir != Vector3.zero;
 
-        if(moveDir!= Vector3.zero) transform.forward = Vector3.Slerp(transform.forward, moveDir, turnSpeed * Time.deltaTime);
+        if (moveDir != Vector3.zero) transform.forward = Vector3.Slerp(transform.forward, moveDir, turnSpeed * Time.deltaTime);
 
         float playerRadius = .7f;
         float playerHight = 2f;
@@ -119,6 +120,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         this.kitchenObject = kitchenObject;
+        if (kitchenObject != null) OnItemPickup?.Invoke(this, EventArgs.Empty);
     }
 
     public KitchenObject GetKitchenObject()

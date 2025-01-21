@@ -7,6 +7,8 @@ public class DeliveryManager : MonoBehaviour
 {
     public event EventHandler OnOrderSpawned;
     public event EventHandler OnOrderDelivered;
+    public event EventHandler OnDeliverySuccess;
+    public event EventHandler OnDeliveryFailed;
 
 
     [SerializeField] private RecipeListSO validOrderList;
@@ -49,9 +51,10 @@ public class DeliveryManager : MonoBehaviour
         {
             pendingOrderList.Remove(fulfilledOrder);
             OnOrderDelivered?.Invoke(this, EventArgs.Empty);
+            OnDeliverySuccess?.Invoke(this, EventArgs.Empty);
             return true;
         }
-        Debug.Log("Wrong order!");
+        OnDeliveryFailed?.Invoke(this, EventArgs.Empty);
         return false;
 
     }

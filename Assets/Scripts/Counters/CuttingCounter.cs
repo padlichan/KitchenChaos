@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CuttingCounter : BaseCounter, IHasProgress
 {
+    public static event EventHandler OnAnyCut;
     public event EventHandler OnCut;
     public event EventHandler<IHasProgress.OnProgresschangeEventArgs> OnProgressChange;
 
@@ -33,7 +34,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             if (!player.HasKitchenObject())
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
-                OnProgressChange?.Invoke(HasKitchenObject(), new IHasProgress.OnProgresschangeEventArgs {progressNormalized = 0 });  
+                OnProgressChange?.Invoke(HasKitchenObject(), new IHasProgress.OnProgresschangeEventArgs { progressNormalized = 0 });
             }
             else
             {
@@ -55,6 +56,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
         if (HasKitchenObject() && CanBeCut(GetKitchenObject().GetKitchenObjectSO()))
         {
             OnCut?.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this, EventArgs.Empty);
             cuttingProgress++;
             KitchenObject kitchenObject = GetKitchenObject();
             CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(kitchenObject.GetKitchenObjectSO());

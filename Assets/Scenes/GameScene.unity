@@ -289,6 +289,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2086036842}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &198591289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 198591291}
+  - component: {fileID: 198591290}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &198591290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198591289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e65d9864f2e494d9ccd2bfbf95b17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClipRefsSO: {fileID: 11400000, guid: 6a49704604d01b8409cb10b63e3b5164, type: 2}
+--- !u!4 &198591291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198591289}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &254246652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1556,6 +1601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 986539077}
   - component: {fileID: 986539076}
+  - component: {fileID: 986539078}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1599,6 +1645,18 @@ Transform:
   - {fileID: 1528824351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &986539078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986539075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5b9ccb447d2fe4995c22fa2bd2c5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &994673376
 GameObject:
   m_ObjectHideFlags: 0
@@ -4012,3 +4070,4 @@ SceneRoots:
   - {fileID: 1311460897}
   - {fileID: 1041984623}
   - {fileID: 306491469}
+  - {fileID: 198591291}
