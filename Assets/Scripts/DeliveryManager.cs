@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
 {
+    public event EventHandler OnOrderSpawned;
+    public event EventHandler OnOrderDelivered;
+
+
     [SerializeField] private RecipeListSO validOrderList;
     private List<RecipeSO> pendingOrderList;
     private int pendingOrderMax = 4;
@@ -28,12 +33,11 @@ public class DeliveryManager : MonoBehaviour
             {
                 orderSpawnTimer = 0;
 
-                var newOrder = validOrderList.recipeSOList[Random.Range(0, validOrderList.recipeSOList.Count)];
+                var newOrder = validOrderList.recipeSOList[UnityEngine.Random.Range(0, validOrderList.recipeSOList.Count)];
                 pendingOrderList.Add(newOrder);
-                Debug.Log($"New order added: {newOrder.RecipeName}");
+                OnOrderSpawned?.Invoke(this, EventArgs.Empty);
             }
         }
-
     }
 
     public bool DeliverRecipe(PlateKitchenObject plateKitchenObject)
@@ -43,8 +47,8 @@ public class DeliveryManager : MonoBehaviour
 
         if (fulfilledOrder != null)
         {
-            Debug.Log($"Correct order: {fulfilledOrder.RecipeName}");
             pendingOrderList.Remove(fulfilledOrder);
+            OnOrderDelivered?.Invoke(this, EventArgs.Empty);
             return true;
         }
         Debug.Log("Wrong order!");
@@ -58,5 +62,10 @@ public class DeliveryManager : MonoBehaviour
         var setB = new HashSet<KitchenObjectSO>(b);
 
         return setA.SetEquals(setB);
+    }
+
+    public List<RecipeSO> GetPendingOrderList()
+    {
+        return pendingOrderList;
     }
 }
