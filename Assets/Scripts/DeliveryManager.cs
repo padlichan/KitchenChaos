@@ -15,6 +15,8 @@ public class DeliveryManager : MonoBehaviour
     private List<RecipeSO> pendingOrderList;
     private int pendingOrderMax = 4;
 
+    private int correctOrdersDelivered = 0;
+
     private float orderSpawnTimer = 0;
     private float orderSpawnTimerMax = 2;
 
@@ -52,6 +54,7 @@ public class DeliveryManager : MonoBehaviour
             pendingOrderList.Remove(fulfilledOrder);
             OnOrderDelivered?.Invoke(this, EventArgs.Empty);
             OnDeliverySuccess?.Invoke(this, EventArgs.Empty);
+            correctOrdersDelivered++;
             return true;
         }
         OnDeliveryFailed?.Invoke(this, EventArgs.Empty);
@@ -67,8 +70,8 @@ public class DeliveryManager : MonoBehaviour
         return setA.SetEquals(setB);
     }
 
-    public List<RecipeSO> GetPendingOrderList()
-    {
-        return pendingOrderList;
-    }
+    public List<RecipeSO> GetPendingOrderList() => pendingOrderList;
+
+    public int getCorrectOrdersDelivered() => correctOrdersDelivered;
+
 }
