@@ -17,5 +17,6 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("Quit");
             Application.Quit();
         });
+        Time.timeScale = 1f;
     }
 }

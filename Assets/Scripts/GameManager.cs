@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public event EventHandler OnGameStateChange;
-    public static GameManager Instance { get; private set; }
+
     private enum GameState
     {
         WaitingToStart,
@@ -12,6 +11,11 @@ public class GameManager : MonoBehaviour
         GamePlaying,
         GameOver
     }
+    public static GameManager Instance { get; private set; }
+
+    public event EventHandler OnGameStateChange;
+    public event EventHandler OnGamePaused;
+    public event EventHandler OnGameUnpaused;
 
     private GameState state;
     private GameState State
@@ -28,10 +32,22 @@ public class GameManager : MonoBehaviour
     private float gamePlayingTimer = 10;
     private float gamePlayingTimerMax = 10;
 
+    private bool isGamePaused = false;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         State = GameState.WaitingToStart;
+    }
+
+    private void Start()
+    {
+        InputHandler.Instance.OnPause += InputHandler_OnPause;
+    }
+
+    private void InputHandler_OnPause(object sender, EventArgs e)
+    {
+        TogglePauseGame();
     }
 
     private void Update()
@@ -61,6 +77,21 @@ public class GameManager : MonoBehaviour
             break;
             case GameState.GameOver:
             break;
+        }
+    }
+
+    public void TogglePauseGame()
+    {
+        isGamePaused = !isGamePaused;
+        if (isGamePaused)
+        {
+            Time.timeScale = 0f;
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            OnGameUnpaused?.Invoke(this, EventArgs.Empty);
         }
     }
 
