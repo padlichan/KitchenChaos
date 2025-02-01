@@ -76,6 +76,11 @@ public class SoundManager : MonoBehaviour
         PlaySound(audioClipRefsSO.Footsteps, position, volume);
     }
 
+    public void PlayNumberPopupSound()
+    {
+        PlaySound(audioClipRefsSO.Warning, Vector3.zero);
+    }
+
     public void ChangeVolume()
     {
         volume += 0.1f;
