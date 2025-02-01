@@ -28,14 +28,15 @@ public class GameManager : MonoBehaviour
         }
     }
     private float countdownToStartTimer = 3;
-    private float gamePlayingTimer = 10;
-    private float gamePlayingTimerMax = 10;
+    private float gamePlayingTimer;
+    private float gamePlayingTimerMax = 30;
 
     private bool isGamePaused = false;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        gamePlayingTimer = gamePlayingTimerMax;
         State = GameState.WaitingToStart;
     }
 
