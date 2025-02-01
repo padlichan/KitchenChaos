@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IHasProgress
 {
-    public event EventHandler<OnProgresschangeEventArgs> OnProgressChange;
+    public event EventHandler<OnProgresschangeEventArgs> OnProgressChanged;
     public class OnProgresschangeEventArgs : EventArgs
     {
         public float progressNormalized;

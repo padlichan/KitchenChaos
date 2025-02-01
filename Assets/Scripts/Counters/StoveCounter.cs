@@ -1,20 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class StoveCounter : BaseCounter, IHasProgress
 {
-    public event EventHandler<IHasProgress.OnProgresschangeEventArgs> OnProgressChange;
+    public event EventHandler<IHasProgress.OnProgresschangeEventArgs> OnProgressChanged;
 
     public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
     public class OnStateChangedEventArgs : EventArgs
     {
         public StoveState state;
     }
-    
+
 
     [SerializeField] private FryingRecipeSO[] fryingRecipeSOArray;
     [SerializeField] private BurningRecipeSO[] burningRecipeSOArray;
@@ -27,23 +24,23 @@ public class StoveCounter : BaseCounter, IHasProgress
         {
             timer = value;
             float progressNormalised = 0;
-            switch(state)
+            switch (state)
             {
                 case StoveState.Idle:
-                    progressNormalised = 0f;
+                progressNormalised = 0f;
                 break;
                 case StoveState.Frying:
-                    progressNormalised = timer/fryingRecipeSO.FryingTimerMax;
+                progressNormalised = timer / fryingRecipeSO.FryingTimerMax;
                 break;
                 case StoveState.Fried:
-                    progressNormalised = timer/burningRecipeSO.BurningTimerMax;
+                progressNormalised = timer / burningRecipeSO.BurningTimerMax;
                 break;
                 case StoveState.Burned:
                 progressNormalised = 0;
                 break;
-            }          
-            
-            OnProgressChange?.Invoke(this, new IHasProgress.OnProgresschangeEventArgs
+            }
+
+            OnProgressChanged?.Invoke(this, new IHasProgress.OnProgresschangeEventArgs
             {
                 progressNormalized = progressNormalised
             });
@@ -55,7 +52,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     private StoveState State
     {
         get { return state; }
-        set 
+        set
         {
             state = value;
             OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = this.state });
@@ -162,7 +159,7 @@ public class StoveCounter : BaseCounter, IHasProgress
 
     private bool CanBePlaced(KitchenObjectSO kitchenObjectSO)
     {
-        return fryingRecipeSOArray.Any(f => f.Input == kitchenObjectSO || f.Output == kitchenObjectSO) || 
+        return fryingRecipeSOArray.Any(f => f.Input == kitchenObjectSO || f.Output == kitchenObjectSO) ||
             burningRecipeSOArray.Any(b => b.Output == kitchenObjectSO);
     }
 
@@ -185,6 +182,8 @@ public class StoveCounter : BaseCounter, IHasProgress
     {
         return burningRecipeSOArray.Where(b => b.Input == input).FirstOrDefault();
     }
+
+    public bool IsFried() => State == StoveState.Fried;
 }
 
 public enum StoveState

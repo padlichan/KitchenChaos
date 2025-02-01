@@ -17,7 +17,7 @@ public class ProgressBarUI : MonoBehaviour
             Debug.LogError($"Game object {hasProgressGameObject} does not have a component that implements IHasProgress!");
         }
 
-        hasProgress.OnProgressChange += IHasProgress_OnProgressChange;
+        hasProgress.OnProgressChanged += IHasProgress_OnProgressChange;
         Hide();
     }
 

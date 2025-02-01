@@ -81,6 +81,11 @@ public class SoundManager : MonoBehaviour
         PlaySound(audioClipRefsSO.Warning, Vector3.zero);
     }
 
+    public void PlayStoveBurnWarningSound(Vector3 position)
+    {
+        PlaySound(audioClipRefsSO.Warning, position);
+    }
+
     public void ChangeVolume()
     {
         volume += 0.1f;
