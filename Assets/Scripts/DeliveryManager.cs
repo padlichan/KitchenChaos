@@ -30,7 +30,7 @@ public class DeliveryManager : MonoBehaviour
     }
     private void Update()
     {
-        if (pendingOrderList.Count < pendingOrderMax)
+        if (GameManager.Instance.IsGamePlaying() && pendingOrderList.Count < pendingOrderMax)
         {
             orderSpawnTimer += Time.deltaTime;
             if (orderSpawnTimer > orderSpawnTimerMax)

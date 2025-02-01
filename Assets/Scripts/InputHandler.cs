@@ -9,6 +9,7 @@ public class InputHandler : MonoBehaviour
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
     public event EventHandler OnPause;
+    public event EventHandler OnBindingRebind;
 
     private PlayerInputActions playerInputActions;
 
@@ -150,6 +151,7 @@ public class InputHandler : MonoBehaviour
                 onActionRebound();
                 PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
                 PlayerPrefs.Save();
+                OnBindingRebind?.Invoke(this, EventArgs.Empty);
             })
             .Start();
         playerInputActions.Player.Enable();
